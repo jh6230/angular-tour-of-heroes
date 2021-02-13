@@ -56,7 +56,7 @@ export class HeroState {
     return this.heroService.addHero(hero).pipe(
       finalize(() => {
         ctx.dispatch(new HeroAction.Load());
-      });
+      })
     );
   }
 
@@ -68,7 +68,7 @@ export class HeroState {
     return this.heroService.deleteHero(hero).pipe(
       finalize(() => {
         ctx.dispatch(new HeroAction.Load());
-      }):
+      }),
     );
   }
 
