@@ -13,6 +13,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
 import { NgxsModule } from '@ngxs/store';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { HeroState} from './hero.state';
 
 @NgModule({
@@ -21,13 +22,13 @@ import { HeroState} from './hero.state';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     ),
     NgxsModule.forRoot([
       HeroState
     ]),
+    NgxsLoggerPluginModule.forRoot(),
   ],
   declarations: [
     AppComponent,

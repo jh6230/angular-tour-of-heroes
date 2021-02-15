@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
@@ -20,6 +20,10 @@ export class HeroesComponent implements OnInit {
     this.getHeroes();
   }
 
+  getHeroes(): void {
+    this.store.dispatch(new HeroAction.Load())
+  }
+
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
@@ -27,9 +31,6 @@ export class HeroesComponent implements OnInit {
     this.store.dispatch(new HeroAction.Add({ name } as Hero))
   }
 
-  getHeroes(): void {
-    this.store.dispatch(new HeroAction.Load())
-  }
 
   delete(hero: Hero): void {
     this.store.dispatch(new HeroAction.Delete(hero))

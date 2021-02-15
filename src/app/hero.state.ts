@@ -1,11 +1,10 @@
+import { Inject, Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { finalize, tap } from 'rxjs/operators';
 
 import { Hero } from "./hero";
 import { HeroAction } from './hero.actions';
 import { HeroService } from './hero.service';
-
-
 
 export class HeroStateModel {
   selectedHero: Hero;
@@ -20,6 +19,7 @@ export class HeroStateModel {
   }
 })
 
+@Injectable()
 export class HeroState {
 
   constructor(private heroService: HeroService) { }
@@ -36,8 +36,21 @@ export class HeroState {
     return state.selectedHero;
   }
 
+  @Action(HeroAction.Load)
+  load(ctx: StateContext<HeroStateModel>) {
+    return this.heroService.getHeroes()
+    .pipe(
+      tap((data) => {
+        ctx.patchState({
+          heroes: data
+        });
+      }),
+    )
+  }
+
+
   @Action(HeroAction.Select)
-  load(ctx: StateContext<HeroStateModel>, action: HeroAction.Select) {
+  select(ctx: StateContext<HeroStateModel>, action: HeroAction.Select) {
     const id = action.id;
     return this.heroService.getHero(id)
       .pipe(
